@@ -1,0 +1,4 @@
+id,lon,lat,address,type2,type1,name
+1,100.01,10.01,x,type21,type11,name1
+2,100.02,10.02,y,type22,type12,name2
+3,100.03,10.03,z,type23,type13,name3

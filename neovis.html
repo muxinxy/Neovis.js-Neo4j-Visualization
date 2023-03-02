@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<head>
+    <title>知识图谱</title>
+    <style type="text/css">
+        html, body {
+            font: 16pt arial;
+        }
+
+        #viz {
+            width: 1500px;
+            height: 700px;
+            border: 1px solid lightgray;
+            font: 22pt arial;
+        }
+
+    </style>
+
+    <!-- FIXME: load from dist -->
+    <script type="text/javascript" src="./dist/neovis.js"></script>
+	<!-- <script src="https://unpkg.com/neovis.js@2.0.2"></script> -->
+
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+		// define config car
+		// instantiate nodevis object
+		// draw
+
+		var viz;
+
+		function draw() {
+			var config = {
+				containerId: "viz",
+				neo4j: {
+					// 社区版Neo4j只能使用DBMS的默认数据库，即neo4j
+					serverUrl: "bolt://localhost:7687",
+					serverUser: "neo4j",
+					serverPassword: "12345678"
+				},
+				// 节点
+				labels: {
+					road: {
+						// label是需要显示在节点上的属性
+						label: "FID",
+						// size是节点的大小，根据属性的值来决定
+						size: "length"
+					},
+					poi: {
+						label: "name",
+						// group是节点的分组，根据属性的值来决定
+						group: "type2"
+					}
+				},
+				// 关系
+				relationships: {
+					CONNECTED: {
+						label: "relation"
+					},
+					LOCATED: {
+						label: "relation"
+					}
+				},
+				arrows: true,
+				// 初始的Cypher语句，随机显示100条数据
+				initialCypher: "MATCH (n)-[r]-(m) WITH n, r, m, rand() AS random ORDER BY random LIMIT 100 RETURN n, r, m"
+			};
+
+			viz = new NeoVis.default(config);
+			viz.render();
+			console.log(viz);
+
+		}
+    </script>
+</head>
+<body onload="draw()">
+<div id="viz"></div>
+
+</body>
+</html>
